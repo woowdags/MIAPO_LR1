@@ -1,0 +1,47 @@
+ public partial class AuthorizationMainWindow : Window
+    {
+        gr682_vdd3Entities db;
+        public AuthorizationMainWindow()
+        {
+            InitializeComponent();
+            db = new gr682_vdd3Entities();
+        }
+
+        private void AuthorizationClick(object sender, RoutedEventArgs e)
+        {
+            if (login.Text == "" || password.Password == "")
+            {
+                MessageBox.Show("Ошибка пустые поля");
+            }
+            if (db.User.Select(item => item.Login + " " + item.Password).Contains(login.Text + " " + password.Password))
+            {
+                MessageBox.Show("Вы авторизованы");
+            }
+            else
+            {
+                MessageBox.Show("Ошибка логина/пароля");
+            }
+        }
+        private void RegistrationClick(object sender, RoutedEventArgs e)
+        {
+            RegistrationWindow rw = new RegistrationWindow();
+            rw.Show();
+            this.Close();
+        }
+        public bool Auth(string login, string password)
+        {
+            gr682_vdd3Entities db = new gr682_vdd3Entities();
+            if (db.User.Select(item => item.Login + " " + item.Password).Contains(login + " " + password))
+            {
+                MessageBox.Show("Вы авторизованы");
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Ошибка логина/пароля");
+                return false;
+            }
+        }
+    }
+}
+
